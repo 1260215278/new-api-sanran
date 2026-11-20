@@ -83,11 +83,12 @@ export function Home() {
           <iframe
             ref={iframeRef}
             src={content}
-            className='h-screen w-full border-none'
+            className='block h-[75svh] min-h-64 w-full border-none'
             title={t('Custom Home Page')}
             sandbox='allow-forms allow-popups allow-popups-to-escape-sandbox allow-scripts allow-top-navigation-by-user-activation'
             onLoad={syncIframePreferences}
           />
+          <Footer />
         </PublicLayout>
       )
     }
@@ -103,19 +104,23 @@ export function Home() {
             content={content}
             className='custom-home-content'
           />
+          <Footer />
         </PublicLayout>
       )
     }
 
     return (
-      <PublicLayout>
-        <div className='mx-auto max-w-6xl px-4 py-8'>
-          <RichContent
-            mode='markdown'
-            content={content}
-            className='custom-home-content'
-          />
-        </div>
+      <PublicLayout showMainContainer={false}>
+        <main className='container px-4 py-6 pt-20 md:px-4'>
+          <div className='mx-auto max-w-6xl px-4 py-8'>
+            <RichContent
+              mode='markdown'
+              content={content}
+              className='custom-home-content'
+            />
+          </div>
+        </main>
+        <Footer />
       </PublicLayout>
     )
   }
