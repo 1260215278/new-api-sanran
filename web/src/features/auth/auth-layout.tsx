@@ -31,30 +31,42 @@ export function AuthLayout({ children }: AuthLayoutProps) {
   const { systemName, logo, loading } = useSystemConfig()
 
   return (
-    <div className='relative grid h-svh max-w-none'>
-      <Link
-        to='/'
-        className='absolute top-4 left-4 z-10 flex items-center gap-2 transition-opacity hover:opacity-80 sm:top-8 sm:left-8'
-      >
-        <div className='relative h-8 w-8'>
+    <div className='grid min-h-svh grid-rows-[auto_1fr] lg:grid-rows-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]'>
+      <div className='auth-brand-panel flex flex-col justify-between gap-5 px-5 py-4 sm:px-8 lg:p-12'>
+        <Link
+          to='/'
+          className='flex w-fit max-w-full items-center gap-2 motion-safe:transition-opacity hover:opacity-80'
+        >
+          <div className='relative size-8 shrink-0'>
+            {loading ? (
+              <Skeleton className='absolute inset-0 rounded-full' />
+            ) : (
+              <img
+                src={logo}
+                alt={t('Logo')}
+                className='h-8 w-8 rounded-full object-cover'
+              />
+            )}
+          </div>
           {loading ? (
-            <Skeleton className='absolute inset-0 rounded-full' />
+            <Skeleton className='h-6 w-24' />
           ) : (
-            <img
-              src={logo}
-              alt={t('Logo')}
-              className='h-8 w-8 rounded-full object-cover'
-            />
+            <span className='min-w-0 truncate text-sm font-medium'>
+              {systemName}
+            </span>
           )}
+        </Link>
+        <div className='lg:my-auto'>
+          <p className='font-serif text-2xl leading-tight tracking-tight lg:text-6xl xl:text-7xl'>
+            {t('auth.brand.name')}
+          </p>
+          <p className='mt-1 font-mono text-[11px] tracking-wider lg:mt-4 lg:text-sm'>
+            {t('auth.brand.subtitle')}
+          </p>
         </div>
-        {loading ? (
-          <Skeleton className='h-6 w-24' />
-        ) : (
-          <h1 className='text-xl font-medium'>{systemName}</h1>
-        )}
-      </Link>
-      <div className='container flex items-center pt-16 sm:pt-0'>
-        <div className='mx-auto flex w-full flex-col justify-center space-y-2 px-4 py-8 sm:w-[480px] sm:p-8'>
+      </div>
+      <div className='flex min-w-0 items-center justify-center px-4 py-6 sm:px-8 sm:py-10'>
+        <div className='auth-form-panel bg-card text-card-foreground w-full max-w-[480px] rounded-xl border p-5 sm:p-8'>
           {children}
         </div>
       </div>

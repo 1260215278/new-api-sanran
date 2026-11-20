@@ -418,18 +418,19 @@ For commercial licensing, please contact support@quantumnous.com
  * duplicating per-component dark-mode overrides.
  *
  * NOTE: `:not()` contributes its argument's specificity, so this selector
- * resolves to (0,3,0). Presets that define bespoke surfaces below need to
- * either match that specificity or opt out here — the latter is cleaner.
+ * has higher specificity than a single preset selector. Presets with bespoke
+ * surfaces opt out here.
  *
  * Opt-outs:
  *   - `default`: keeps neutral surfaces from :root.
  *   - `anthropic`: warm cream surfaces are a brand choice, NOT a primary-mix
  *     derivation (the Anthropic system deliberately uses warm neutrals for
  *     cards/borders rather than tinting them with the clay accent).
- *   - `simple-large`: keeps intentionally neutral, high-contrast surfaces. */
+ *   - `simple-large`: keeps intentionally neutral, high-contrast surfaces.
+ *   - `sanran`: defines its own warm paper and stone surfaces. */
 [data-theme-preset]:not([data-theme-preset='default']):not(
-  [data-theme-preset='anthropic']
-):not([data-theme-preset='simple-large']) {
+    [data-theme-preset='anthropic']
+  ):not([data-theme-preset='simple-large']):not([data-theme-preset='sanran']) {
   --card: color-mix(in oklch, var(--primary) 3%, var(--background));
   --popover: color-mix(in oklch, var(--primary) 5%, var(--background));
   --muted: color-mix(in oklch, var(--primary) 7%, var(--background));
@@ -454,7 +455,7 @@ For commercial licensing, please contact support@quantumnous.com
 .dark
   [data-theme-preset]:not([data-theme-preset='default']):not(
     [data-theme-preset='anthropic']
-  ):not([data-theme-preset='simple-large']) {
+  ):not([data-theme-preset='simple-large']):not([data-theme-preset='sanran']) {
   --card: color-mix(in oklch, var(--primary) 8%, var(--background));
   --popover: color-mix(in oklch, var(--primary) 12%, var(--background));
   --muted: color-mix(in oklch, var(--primary) 12%, var(--background));
@@ -678,6 +679,97 @@ For commercial licensing, please contact support@quantumnous.com
 [data-theme-font='serif'] .text-4xl,
 [data-theme-font='serif'] .text-5xl {
   letter-spacing: -0.02em;
+}
+
+/* ── Sanran ────────────────────────────────────────────────────────────── */
+/* The provider omits the attribute for the default preference. Keep this
+ * fallback on body so it also covers first paint and body-mounted portals. */
+body:where(:not([data-theme-preset])),
+[data-theme-preset='sanran'] {
+  --background: #faf9f5;
+  --foreground: #1f1e1b;
+  --card: #fffdf9;
+  --card-foreground: var(--foreground);
+  --popover: #fffdf9;
+  --popover-foreground: var(--foreground);
+  --primary: #d97757;
+  --primary-foreground: #fffaf5;
+  --secondary: #eee5d7;
+  --secondary-foreground: var(--foreground);
+  --muted: #f3efe6;
+  --muted-foreground: #5f5a50;
+  --accent: #f3efe6;
+  --accent-foreground: var(--foreground);
+  --border: rgb(70 50 30 / 12%);
+  --input: var(--border);
+  --ring: #b9583a;
+  --success: #486146;
+  --success-foreground: var(--primary-foreground);
+  --warning: #875410;
+  --warning-foreground: var(--primary-foreground);
+  --info: #495f73;
+  --info-foreground: var(--primary-foreground);
+  --destructive: #9e3c35;
+  --destructive-foreground: var(--primary-foreground);
+  --neutral: var(--muted-foreground);
+  --neutral-foreground: var(--foreground);
+  --sidebar: #f3efe6;
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: #f2ded2;
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  --chart-1: #d97757;
+  --chart-2: #d9c3a0;
+  --chart-3: #8fa888;
+  --chart-4: #7d8fa3;
+  --chart-5: #a94e2e;
+  --overview-accent-1: var(--chart-1);
+  --overview-accent-2: var(--chart-3);
+  --overview-accent-3: var(--chart-4);
+  --skeleton-base: #eee8dd;
+  --skeleton-highlight: #f8f3eb;
+  --radius: 0.6875rem;
+  --sanran-ink: #923e25;
+  /* The CTA surface is deeper than the swatch so light labels stay legible. */
+  --sanran-button: linear-gradient(180deg, #ac5035, #963e29);
+  --sanran-button-hover: #953f29;
+  --sanran-shadow: 0 2px 8px rgb(70 50 30 / 6%);
+}
+
+.dark body:where(:not([data-theme-preset])),
+.dark [data-theme-preset='sanran'] {
+  --background: #1c1a17;
+  --foreground: #f5f0e6;
+  --card: #23211d;
+  --popover: #2a2622;
+  --primary: #e58e6d;
+  --primary-foreground: #1c1a17;
+  --secondary: #352e27;
+  --muted: #2a2622;
+  --muted-foreground: #a39b8d;
+  --accent: #2a2622;
+  --border: rgb(240 200 170 / 12%);
+  --ring: #e58e6d;
+  --success: #b0c3a5;
+  --warning: #eac181;
+  --info: #afc0d0;
+  --destructive: #f1a096;
+  --sidebar: #191714;
+  --sidebar-accent: #412d24;
+  --chart-1: #e58e6d;
+  --chart-2: #e8d2b0;
+  --chart-3: #a6bc9e;
+  --chart-4: #a0b1c4;
+  --chart-5: #cb785b;
+  --skeleton-base: #312b24;
+  --skeleton-highlight: #40372d;
+  --sanran-ink: #f1a98a;
+  --sanran-button: linear-gradient(180deg, #f0ab8e, #e58e6d, #db8766);
+  --sanran-button-hover: #efaa8b;
+  --sanran-shadow: 0 2px 8px rgb(0 0 0 / 18%);
 }
 
 /* ── Border radius ────────────────────────────────────────────────────── */

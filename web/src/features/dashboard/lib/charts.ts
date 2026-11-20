@@ -71,7 +71,8 @@ export function processChartData(
   data: QuotaDataItem[],
   timeGranularity: TimeGranularity = 'day',
   t?: TFunction,
-  chartCornerRadius?: number
+  chartCornerRadius?: number,
+  palette?: string[]
 ): ProcessedChartData {
   const tt: TFunction = t ?? ((x) => x)
   const otherLabel = tt('Other')
@@ -270,10 +271,13 @@ export function processChartData(
     .map(([time]) => time)
   const sortedModels = [...allModels].sort()
   const modelColorDomain = [...new Set([...sortedModels, otherLabel])]
-  const modelColorRange = getDashboardChartColors(modelColorDomain.length)
-  const otherColor = modelColorRange[modelColorDomain.indexOf(otherLabel)]
+  const modelColorRange = palette?.length
+    ? palette
+    : getDashboardChartColors(modelColorDomain.length)
   const otherTooltipColor =
-    typeof otherColor === 'string' ? otherColor : '#FF8A00'
+    modelColorRange[
+      modelColorDomain.indexOf(otherLabel) % modelColorRange.length
+    ]
   const modelColor = {
     type: 'ordinal',
     domain: modelColorDomain,
@@ -710,13 +714,15 @@ export function processUserChartData(
   data: QuotaDataItem[],
   timeGranularity: TimeGranularity = 'day',
   t?: TFunction,
-  limit = 10
+  limit = 10,
+  palette?: string[]
 ): ProcessedUserChartData {
   const tt: TFunction = t ?? ((x) => x)
   const { config } = getCurrencyDisplay()
   const quotaPerUnit = config.quotaPerUnit
 
   const formatVal = (raw: number) => renderQuotaCompat(raw, 2)
+  const colors = palette?.length ? palette : USER_COLORS
 
   const emptyResult: ProcessedUserChartData = {
     spec_user_rank: {
@@ -732,7 +738,7 @@ export function processUserChartData(
         subtext: tt('No data available'),
       },
       legends: { visible: false },
-      color: { type: 'ordinal', range: USER_COLORS },
+      color: { type: 'ordinal', range: colors },
       background: { fill: 'transparent' },
     },
     spec_user_trend: {
@@ -747,7 +753,7 @@ export function processUserChartData(
         subtext: tt('No data available'),
       },
       legends: { visible: true, selectMode: 'single' },
-      color: { type: 'ordinal', range: USER_COLORS },
+      color: { type: 'ordinal', range: colors },
       point: { visible: false },
       background: { fill: 'transparent' },
     },
@@ -775,7 +781,7 @@ export function processUserChartData(
 
   const userColorMap = topUsers.reduce<Record<string, string>>(
     (acc, user, i) => {
-      acc[user] = USER_COLORS[i % USER_COLORS.length]
+      acc[user] = colors[i % colors.length]
       return acc
     },
     {}

@@ -35,6 +35,7 @@ import type {
 } from '@/features/dashboard/types'
 import { useThemeRadiusPx } from '@/lib/theme-radius'
 import type { TimeGranularity } from '@/lib/time'
+import { useThemeChartPalette } from '@/lib/theme-color'
 import { VCHART_OPTION } from '@/lib/vchart'
 
 let themeManagerPromise: Promise<
@@ -98,15 +99,17 @@ export function ConsumptionDistributionChart(
     updateTheme()
   }, [resolvedTheme])
 
+  const palette = useThemeChartPalette()
   const chartData = useMemo(
     () =>
       processChartData(
         props.loading ? [] : props.data,
         timeGranularity,
         t,
-        chartRadius
+        chartRadius,
+        palette
       ),
-    [props.data, props.loading, timeGranularity, t, chartRadius]
+    [props.data, props.loading, timeGranularity, t, chartRadius, palette]
   )
   const spec = chartType === 'bar' ? chartData.spec_line : chartData.spec_area
   const specType = typeof spec?.type === 'string' ? spec.type : chartType

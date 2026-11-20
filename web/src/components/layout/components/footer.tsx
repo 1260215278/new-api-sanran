@@ -126,24 +126,33 @@ function LegalLinks(props: { leadingSeparator?: boolean }) {
 function ProjectAttribution(props: { currentYear: number; inline?: boolean }) {
   const { t } = useTranslation()
   const content = (
-    <span className='text-muted-foreground/45'>
+    <span className='text-muted-foreground'>
       &copy; {props.currentYear}{' '}
       <a
         href='https://github.com/QuantumNous/new-api'
         target='_blank'
         rel='noopener noreferrer'
-        className='text-foreground/70 hover:text-foreground font-medium transition-colors'
+        className='text-foreground hover:text-foreground font-medium underline underline-offset-2'
       >
         {t('New API')}
       </a>
-      . {t(NEW_API_FOOTER_ATTRIBUTION_KEY)}
+      . {t(NEW_API_FOOTER_ATTRIBUTION_KEY)} {t('footer.frontendAttribution')}
+      {' '}
+      <a
+        href='https://github.com/1260215278/new-api-sanran'
+        target='_blank'
+        rel='noopener noreferrer'
+        className='text-foreground hover:text-foreground font-medium underline underline-offset-2'
+      >
+        {t('footer.sourceCode')}
+      </a>
     </span>
   )
   if (props.inline) {
     return content
   }
   return (
-    <div className='text-muted-foreground/45 text-center text-xs sm:text-right'>
+    <div className='text-muted-foreground text-center text-xs sm:text-right'>
       {content}
     </div>
   )

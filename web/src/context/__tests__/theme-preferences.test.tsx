@@ -55,6 +55,9 @@ function ThemeControls() {
       >
         Anthropic preset
       </button>
+      <button type='button' onClick={() => customization.setPreset('sanran')}>
+        Sanran preset
+      </button>
       <button type='button' onClick={() => customization.setPreset('default')}>
         Default preset
       </button>
@@ -283,6 +286,24 @@ describe('theme font selection', () => {
     render(<ThemeFixture />)
 
     expect(document.body).toHaveAttribute('data-theme-font', 'system')
+  })
+
+  it('uses Sanran for fresh storage and remembers an explicit original Default', async () => {
+    const user = userEvent.setup()
+    const firstVisit = render(<ThemeFixture />)
+    expect(document.body).not.toHaveAttribute('data-theme-preset')
+
+    await user.click(screen.getByRole('button', { name: 'Default preset' }))
+    expect(document.body).toHaveAttribute('data-theme-preset', 'default')
+    expect(localStorage.getItem('newapi:theme:v1:preset')).toBe('default')
+
+    firstVisit.unmount()
+    render(<ThemeFixture />)
+    expect(document.body).toHaveAttribute('data-theme-preset', 'default')
+
+    await user.click(screen.getByRole('button', { name: 'Sanran preset' }))
+    expect(document.body).not.toHaveAttribute('data-theme-preset')
+    expect(localStorage.getItem('newapi:theme:v1:preset')).toBeNull()
   })
 
   it('uses the preset font in Auto and restores the browser font on the default preset', async () => {

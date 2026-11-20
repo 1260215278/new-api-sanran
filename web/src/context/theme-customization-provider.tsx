@@ -134,6 +134,26 @@ export function ThemeCustomizationProvider(props: {
     )
   }, [preset])
 
+  useEffect(() => {
+    const meta = document.querySelector("meta[name='theme-color']")
+    if (!meta) return
+
+    const update = () => {
+      meta.setAttribute(
+        'content',
+        getComputedStyle(document.body).backgroundColor
+      )
+    }
+    update()
+
+    const observer = new MutationObserver(update)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+    return () => observer.disconnect()
+  }, [preset])
+
   // Resolve Auto into the preset font or the browser's sans-serif while
   // keeping an explicit Sans choice distinct from that browser fallback.
   useEffect(() => {

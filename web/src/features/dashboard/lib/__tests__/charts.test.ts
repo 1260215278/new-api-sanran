@@ -154,3 +154,15 @@ describe.each(cases)('dashboard $granularity chart chronology', (scenario) => {
     }
   })
 })
+
+test('uses the supplied theme palette for model and user chart series', () => {
+  const data = unorderedUsage(cases[0].start, cases[0].interval)
+  const palette = ['#d97757', '#d9c3a0']
+  const models = processChartData(data, 'day', undefined, undefined, palette)
+  const users = processUserChartData([], 'day', undefined, 10, palette)
+
+  expect(models.spec_line.color).toMatchObject({ range: palette })
+  expect(models.spec_pie.color).toMatchObject({ range: palette })
+  expect(users.spec_user_rank.color).toMatchObject({ range: palette })
+  expect(users.spec_user_trend.color).toMatchObject({ range: palette })
+})

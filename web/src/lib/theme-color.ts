@@ -43,16 +43,44 @@ export function resolveThemeColor(cssVariable: string): string | undefined {
   return `rgba(${red}, ${green}, ${blue}, ${(alpha / 255).toFixed(2)})`
 }
 
+const CHART_TOKENS = [
+  '--chart-1',
+  '--chart-2',
+  '--chart-3',
+  '--chart-4',
+  '--chart-5',
+]
+
 /**
  * Track a theme color token. The light/dark class on `<html>` and the theme
  * preset attribute on `<body>` are applied by provider effects that run after
  * this hook's, so the color is re-resolved when either attribute changes.
  */
 export function useThemeColor(cssVariable: string): string | undefined {
-  const [color, setColor] = useState<string | undefined>()
+  return useResolvedThemeColors(cssVariable)
+}
+
+export function useThemeChartPalette(): string[] | undefined {
+  return useResolvedThemeColors(CHART_TOKENS)
+}
+
+function useResolvedThemeColors(cssVariable: string): string | undefined
+function useResolvedThemeColors(cssVariable: string[]): string[] | undefined
+function useResolvedThemeColors(cssVariable: string | string[]) {
+  const [color, setColor] = useState<string | string[] | undefined>()
 
   useEffect(() => {
-    const update = () => setColor(resolveThemeColor(cssVariable))
+    const update = () => {
+      if (typeof cssVariable === 'string') {
+        setColor(resolveThemeColor(cssVariable))
+      } else {
+        setColor(
+          cssVariable
+            .map(resolveThemeColor)
+            .filter((value) => value !== undefined)
+        )
+      }
+    }
     update()
 
     const observer = new MutationObserver(update)

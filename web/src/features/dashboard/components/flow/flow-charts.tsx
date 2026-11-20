@@ -87,7 +87,7 @@ import type {
 import { formatQuota } from '@/lib/format'
 import { ROLE } from '@/lib/roles'
 import { requireServerSuccess } from '@/lib/server-error-message'
-import { useThemeColor } from '@/lib/theme-color'
+import { useThemeChartPalette, useThemeColor } from '@/lib/theme-color'
 import { computeTimeRange } from '@/lib/time'
 import { useChartTheme } from '@/lib/use-chart-theme'
 import { cn } from '@/lib/utils'
@@ -258,6 +258,7 @@ export function FlowCharts(props: FlowChartsProps) {
   const { t } = useTranslation()
   const { resolvedTheme, themeReady } = useChartTheme()
   const textColor = useThemeColor('--foreground')
+  const palette = useThemeChartPalette()
   const chartInstanceRef = useRef<IVChart | null>(null)
   const user = useAuthStore((state) => state.auth.user)
   const isRoot = Boolean(user?.role && user.role >= ROLE.SUPER_ADMIN)
@@ -359,6 +360,7 @@ export function FlowCharts(props: FlowChartsProps) {
         topNodeLimit,
         overflowMode,
         maskSensitive,
+        colorPalette: palette,
         deletedTokenLabel: (tokenId) => t('Deleted ({{id}})', { id: tokenId }),
         otherNodeLabel: (kind) => t(FLOW_OTHER_NODE_LABEL_KEYS[kind]),
       }),
@@ -375,6 +377,7 @@ export function FlowCharts(props: FlowChartsProps) {
       topNodeLimit,
       visibleStages,
       maskSensitive,
+      palette,
       t,
     ]
   )

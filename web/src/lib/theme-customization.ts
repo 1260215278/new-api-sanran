@@ -25,6 +25,11 @@ For commercial licensing, please contact support@quantumnous.com
 
 export const THEME_PRESETS = [
   {
+    value: 'sanran',
+    name: 'Sanran',
+    swatches: ['#faf9f5', '#d97757'],
+  },
+  {
     value: 'default',
     name: 'Default',
     swatches: ['oklch(0.72 0.18 250)', 'oklch(0.7 0.12 280)'],
@@ -112,7 +117,7 @@ export type ThemeCustomization = {
 }
 
 export const DEFAULT_THEME_CUSTOMIZATION: ThemeCustomization = {
-  preset: 'default',
+  preset: 'sanran',
   font: 'default',
   radius: 'default',
   scale: 'default',

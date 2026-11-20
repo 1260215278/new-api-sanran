@@ -258,7 +258,10 @@ export function SummaryCards() {
         <div className='flex flex-col gap-2.5 p-3 sm:gap-3 sm:p-5'>
           <div className='flex flex-wrap items-start justify-between gap-3'>
             <div className='flex flex-col gap-1'>
-              <h3 className='text-sm font-semibold sm:text-base'>
+              <h3
+                data-slot='dashboard-stat-title'
+                className='text-sm font-semibold sm:text-base'
+              >
                 {t('Usage at a glance')}
               </h3>
               <p className='text-muted-foreground text-xs sm:text-sm'>
@@ -315,7 +318,7 @@ export function SummaryCards() {
                   <Flame className='size-3 shrink-0' aria-hidden='true' />
                   <span className='truncate'>{t('Last 24h usage')}</span>
                 </div>
-                <div className='text-foreground mt-1.5 truncate text-xs font-semibold tabular-nums'>
+                <div className='text-foreground mt-1.5 truncate font-mono text-xs font-semibold tabular-nums'>
                   {formatQuota(recentUsage)}
                 </div>
               </div>
@@ -336,7 +339,7 @@ export function SummaryCards() {
                 </div>
                 <div
                   className={cn(
-                    'mt-1.5 truncate text-xs font-semibold tabular-nums',
+                    'mt-1.5 truncate font-mono text-xs font-semibold tabular-nums',
                     healthLevel === 'critical' && 'text-destructive',
                     healthLevel === 'caution' && 'text-warning'
                   )}

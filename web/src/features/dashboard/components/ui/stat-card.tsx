@@ -26,11 +26,7 @@ import { cn } from '@/lib/utils'
 type StatCardTone = 'accent-1' | 'accent-2' | 'accent-3'
 type StatCardSparklineVariant = 'bars' | 'line'
 type StatCardDetailTone =
-  | 'default'
-  | 'muted'
-  | 'success'
-  | 'warning'
-  | 'destructive'
+  'default' | 'muted' | 'success' | 'warning' | 'destructive'
 
 export interface StatCardDetail {
   label: string
@@ -316,7 +312,10 @@ export function StatCard(props: StatCardProps) {
           >
             <Icon />
           </IconBadge>
-          <span className='line-clamp-1 leading-snug sm:line-clamp-2'>
+          <span
+            data-slot='dashboard-stat-title'
+            className='line-clamp-1 leading-snug sm:line-clamp-2'
+          >
             {props.title}
           </span>
         </div>

@@ -745,3 +745,149 @@ For commercial licensing, please contact support@quantumnous.com
     display: none;
   }
 }
+
+.auth-brand-panel {
+  color: #f5f0e6;
+  background-color: #1c1a17;
+  background-image:
+    radial-gradient(ellipse at 0% 100%, rgb(217 119 87 / 30%), transparent 75%),
+    linear-gradient(rgb(245 240 230 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(245 240 230 / 4%) 1px, transparent 1px);
+  background-size:
+    auto,
+    32px 32px,
+    32px 32px;
+}
+
+.auth-brand-panel > div > p:last-child {
+  color: #edb199;
+}
+
+.auth-form-panel h2 {
+  font-family: var(--font-serif);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .auth-form-panel {
+    animation: landing-fade-in 180ms ease-out;
+  }
+}
+
+:where(body:not([data-theme-preset]), body[data-theme-preset='sanran']) {
+  &::selection,
+  ::selection {
+    color: var(--foreground);
+    background: color-mix(in srgb, var(--primary) 28%, var(--background));
+  }
+
+  [data-slot='app-header'] {
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
+  }
+
+  [data-slot='page-title'],
+  [data-slot='card-title'],
+  [data-slot='dialog-title'],
+  [data-slot='empty-title'],
+  [data-slot='dashboard-stat-title'] {
+    font-family: var(--font-serif);
+  }
+
+  [data-slot='sidebar-group-label'],
+  [data-slot='breadcrumb-list'] {
+    font-family: var(--font-mono);
+    color: var(--muted-foreground);
+  }
+
+  :is(
+    [data-slot='sidebar-menu-button'],
+    [data-slot='sidebar-menu-sub-button']
+  )[data-active] {
+    box-shadow: inset 3px 0 var(--primary);
+  }
+
+  [data-slot='card'] {
+    --tw-ring-color: var(--border);
+  }
+
+  [data-slot='card'],
+  .auth-form-panel,
+  [data-slot='dialog-content'] {
+    box-shadow: var(--tw-ring-shadow, 0 0 transparent), var(--sanran-shadow);
+  }
+
+  [data-slot='button'][data-variant='default'].bg-primary {
+    background-image: var(--sanran-button);
+    box-shadow:
+      var(--tw-inset-ring-shadow, 0 0 transparent),
+      var(--tw-ring-offset-shadow, 0 0 transparent),
+      var(--tw-ring-shadow, 0 0 transparent),
+      inset 0 1px rgb(255 250 245 / 24%);
+
+    &:is(:hover, :active):not(:disabled) {
+      background: var(--sanran-button-hover);
+    }
+  }
+
+  :is([data-slot='button'], [data-slot='badge'])[data-variant='link'] {
+    color: var(--sanran-ink);
+  }
+
+  [data-slot='badge'][data-variant='default'].bg-primary {
+    background-color: var(--sidebar-accent);
+    color: var(--sanran-ink);
+  }
+
+  [data-slot='table-header'] {
+    background-color: var(--muted);
+  }
+
+  [data-slot='table-row']:not([data-state='selected']):hover {
+    background-color: var(--accent);
+  }
+
+  [data-slot='tabs-list'][data-variant='default']
+    [data-slot='tabs-trigger'][data-active] {
+    background-color: var(--card);
+  }
+
+  [data-slot='tabs-list'][data-variant='line']
+    [data-slot='tabs-trigger']::after {
+    background-color: var(--primary);
+  }
+
+  [data-slot='scroll-area-thumb'] {
+    background-color: color-mix(
+      in srgb,
+      var(--muted-foreground) 55%,
+      transparent
+    );
+  }
+
+  [data-slot='empty-icon'] {
+    color: var(--sanran-ink);
+  }
+
+  :is(
+    [data-slot='input'],
+    [data-slot='select-trigger'],
+    [data-slot='textarea'],
+    [data-slot='input-group']
+  ) {
+    border-color: color-mix(
+      in srgb,
+      var(--muted-foreground) 55%,
+      var(--background)
+    );
+
+    &:focus-visible,
+    &[data-slot='input-group']:focus-within {
+      border-color: var(--ring);
+    }
+
+    &[aria-invalid='true'],
+    &[data-slot='input-group']:has([aria-invalid='true']) {
+      border-color: var(--destructive);
+    }
+  }
+}

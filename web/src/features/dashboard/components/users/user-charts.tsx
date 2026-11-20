@@ -41,6 +41,7 @@ import type {
   UserChartsFilters,
 } from '@/features/dashboard/types'
 import { requireServerSuccess } from '@/lib/server-error-message'
+import { useThemeChartPalette } from '@/lib/theme-color'
 import { getRollingDateRange, type TimeGranularity } from '@/lib/time'
 import { VCHART_OPTION } from '@/lib/vchart'
 
@@ -145,15 +146,17 @@ export function UserCharts(props: UserChartsProps) {
     staleTime: 60_000,
   })
 
+  const palette = useThemeChartPalette()
   const chartData = useMemo(
     () =>
       processUserChartData(
         isLoading ? [] : (userData ?? []),
         timeGranularity,
         t,
-        topUserLimit
+        topUserLimit,
+        palette
       ),
-    [userData, isLoading, timeGranularity, t, topUserLimit]
+    [userData, isLoading, timeGranularity, t, topUserLimit, palette]
   )
 
   return (

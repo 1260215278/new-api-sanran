@@ -206,6 +206,7 @@ export function LogStatCards(props: LogStatCardsProps) {
                 </IconBadge>
                 <div
                   className='text-muted-foreground truncate text-[11px] leading-4 font-medium tracking-wide uppercase sm:text-xs sm:tracking-wider'
+                  data-slot='dashboard-stat-title'
                   title={it.title}
                 >
                   {it.title}
